@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="card">
+      <form
+        id="registration-form"
+        action="./index.html"
+        method="post"
+        class="form-contents"
+      >
+        <div class="form-inputs">
+          <div class="labeled-input">
+            <label for="first-name">Имя</label>
+            <input
+              type="text"
+              name="Имя"
+              id="first-name"
+              required
+              pattern="[А-Яа-я]{2,20}"
+              minlength="2"
+              maxlength="20"
+            />
+          </div>
+          <div class="labeled-input">
+            <label for="last-name">Фамилия</label>
+            <input
+              type="text"
+              name="Фамилия"
+              required
+              pattern="[А-Яа-я]{2,20}"
+              id="last-name"
+              onclick="return false"
+              minlength="2"
+              maxlength="20"
+            />
+          </div>
+          <div class="labeled-input">
+            <label for="email">Email</label>
+            <input type="email" name="Email" id="email" required />
+          </div>
+          <div class="labeled-input">
+            <label for="password">Пароль</label>
+            <input type="password" name="Пароль" id="password" required />
+          </div>
+          <div class="labeled-input">
+            <label for="password-confirm">Подтверждение пароля</label>
+            <input
+              type="password"
+              name="Подтверждение пароля"
+              id="password-confirm"
+              required
+            />
+          </div>
+          <div class="labeled-input">
+            <label for="birth-day">Дата рождения</label>
+            <input type="date" name="Дата рождения" id="birth-day" required />
+          </div>
+        </div>
+        <div class="form-controls">
+          <input type="submit" value="Отправить" id="submit" />
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    "use strict";
+    const formElement = document.querySelector("form"); // form#registration-form
+    const submitButton = document.getElementById("submit");
+
+    const formData = {};
+
+    const setFormValueByKey = (key, value) => {
+      formData[key] = value;
+    };
+
+    const onFormData = () => {
+      const data = new FormData(formElement, submitButton);
+      const entries = Object.entries(formData);
+      entries.map(([key, value]) => {
+        data.append(key, value);
+      });
+    };
+
+    const onValueInput = (event) => {
+      if (!event) return;
+      const { id, value } = event.target;
+      setFormValueByKey(id, value);
+    };
+
+    const isSumbitActive = true;
+
+    const firstNameEl = document.getElementById("first-name");
+    const lastNameEl = document.getElementById("last-name");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const passwordConfirm = document.getElementById("password-confirm");
+    const birthDay = document.getElementById("birth-day");
+
+    const onPasswordConfirmInput = (event) => {
+      onValueInput(event);
+      if (passwordConfirm.value === password.value) {
+        return passwordConfirm.setCustomValidity("");
+      }
+      passwordConfirm.setCustomValidity("Не совпадает пароль");
+    };
+
+    formElement.addEventListener("formdata", onFormData);
+
+    firstNameEl.addEventListener("change", onValueInput);
+    lastNameEl.addEventListener("change", onValueInput);
+    email.addEventListener("change", onValueInput);
+    password.addEventListener("change", onValueInput);
+    passwordConfirm.addEventListener("change", onPasswordConfirmInput);
+    birthDay.addEventListener("change", onValueInput);
+  </script>
+</html>
